@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".Myinfo"
-    tools:showIn="@layout/activity_myinfo">
+    tools:showIn="@layout/activity_myinfo"
+    android:background="@color/dark">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,23 +18,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
+            android:textColor="@color/colorAccent"
             android:text="@string/dev_name"
             android:textSize="20sp"
             android:textStyle="bold"/>
 
         <TextView
+            android:textColor="@color/colorAccent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:text="Udacity CapStone--2 Project"/>
 
         <TextView
+            android:textColor="@color/colorAccent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="API Provider newsapi.org"
             android:layout_margin="10dp"/>
 
         <TextView
+            android:textColor="@color/colorAccent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Used Libraries"
@@ -41,10 +46,31 @@
             android:layout_margin="10dp"/>
 
         <TextView
+            android:textColor="@color/colorAccent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1.ButterKnife  \n2.Volley  \n3.Picasso"
             android:layout_margin="10dp"/>
+
+        <TextView
+            android:textColor="@color/colorAccent"
+            android:layout_width="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:text="Linkdin : www.linkedin.com/in/gnana-sreekar/"
+            android:id="@+id/linkdin"
+            android:autoLink="web"/>
+
+        <TextView
+            android:textColor="@color/colorAccent"
+            android:layout_width="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:text="Youtube : www.youtube.com/rgstech"
+            android:id="@+id/youtube"
+            android:autoLink="web"/>
 
 
 

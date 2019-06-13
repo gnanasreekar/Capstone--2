@@ -1,5 +1,6 @@
 package com.rgs.capstone;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -66,14 +67,11 @@ public class Details_choice extends AppCompatActivity
         adapter = new Adapter(Details_choice.this);
         recyclerview.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
         setSupportActionBar(toolbar);
-        
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Udacity CapStone-2 project\nDeveloped By : R.Gnana Sreekar" +
-                        "API Provider newsapi.org\n" +
-                        "https://www.linkedin.com/in/gnana-sreekar/", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                startActivity(new Intent(Details_choice.this, Myinfo.class));
             }
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -131,10 +129,8 @@ public class Details_choice extends AppCompatActivity
         } else if (id == R.id.nav_bitcoin) {
             url = bitcoin;
             json(url);
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.nav_myinfo) {
+            startActivity(new Intent(Details_choice.this,Myinfo.class));
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

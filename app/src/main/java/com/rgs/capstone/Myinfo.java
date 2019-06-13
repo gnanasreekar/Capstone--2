@@ -1,13 +1,20 @@
 package com.rgs.capstone;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.util.Linkify;
 import android.view.View;
+import android.widget.TextView;
 
 public class Myinfo extends AppCompatActivity {
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,12 +22,19 @@ public class Myinfo extends AppCompatActivity {
         setContentView(R.layout.activity_myinfo);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        final TextView myClickableUrl = (TextView) findViewById(R.id.linkdin);
+        myClickableUrl.setText("Linkdin : www.linkedin.com/in/gnana-sreekar/");
+        Linkify.addLinks(myClickableUrl, Linkify.WEB_URLS);
+
+        final TextView myClickableUrlYT = (TextView) findViewById(R.id.youtube);
+        myClickableUrlYT.setText("Youtube : www.youtube.com/rgstech");
+        Linkify.addLinks(myClickableUrlYT, Linkify.WEB_URLS);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "😁😁😁😁😁😁😁😁😁", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
