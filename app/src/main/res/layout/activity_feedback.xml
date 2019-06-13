@@ -9,14 +9,7 @@
     tools:context=".Feedback"
     android:background="@color/dark">
 
-    <android.support.v7.widget.Toolbar
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:title="Feedback"
-    android:background="@color/dark">
 
-
-    </android.support.v7.widget.Toolbar>
 
     <EditText
         android:id="@+id/edit"

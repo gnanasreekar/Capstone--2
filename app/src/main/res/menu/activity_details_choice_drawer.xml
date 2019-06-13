@@ -6,16 +6,16 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_business"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_business_black_24dp"
 
             android:title="@string/business_news" />
         <item
             android:id="@+id/nav_tech"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_settings_power_black_24dp"
             android:title="@string/tech_news" />
         <item
             android:id="@+id/nav_bitcoin"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_monetization_on_black_24dp"
             android:title="@string/bitcoin_news" />
 
     </group>

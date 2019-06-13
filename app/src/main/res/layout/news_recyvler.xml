@@ -10,6 +10,7 @@
     card_view:cardPreventCornerOverlap="false"
     card_view:cardUseCompatPadding="true"
     android:id="@+id/cardview"
+    card_view:cardBackgroundColor="@color/dark"
     android:background="@color/dark">
 
     <LinearLayout

@@ -1,11 +1,12 @@
 package com.rgs.capstone;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -27,8 +28,6 @@ public class Displaydetails extends AppCompatActivity {
     CollapsingToolbarLayout toolbarLayout;
     @BindView(R.id.app_bar)
     AppBarLayout appBar;
-    @BindView(R.id.author)
-    TextView author;
     @BindView(R.id.desc)
     TextView desc;
     @BindView(R.id.content)
@@ -46,6 +45,10 @@ public class Displaydetails extends AppCompatActivity {
     String url;
     @BindView(R.id.back_image)
     ImageView backImage;
+    @BindView(R.id.website)
+    FloatingActionButton website;
+    @BindView(R.id.title)
+    TextView title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,11 +66,11 @@ public class Displaydetails extends AppCompatActivity {
         url = intent.getStringExtra("url");
         description = intent.getStringExtra("desc");
         Picasso.with(getApplicationContext()).load(intent.getStringExtra("image")).fit().centerInside().into(backImage);
-        author.setText(authors);
+        title.setText(titile);
         desc.setText(description);
         content.setText(contents);
         datet.setText("Published date :" + date);
-        toolbarLayout.setTitle(titile);
+        toolbarLayout.setTitle(authors);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,5 +80,14 @@ public class Displaydetails extends AppCompatActivity {
                         .getIntent(), getString(R.string.share)));
             }
         });
+        website.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                CustomTabsIntent customTabsIntent = builder.build();
+                customTabsIntent.launchUrl(Displaydetails.this, Uri.parse(url));
+            }
+        });
+
     }
 }
