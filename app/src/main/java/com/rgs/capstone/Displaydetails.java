@@ -67,7 +67,7 @@ public class Displaydetails extends AppCompatActivity {
         desc.setText(description);
         content.setText(contents);
         datet.setText("Published date :" + date);
-
+        toolbarLayout.setTitle(titile);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

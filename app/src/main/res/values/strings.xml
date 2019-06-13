@@ -17,6 +17,11 @@
     <string name="share">Share</string>
     <string name="title_activity_myinfo">Myinfo</string>
     <string name="dev_name">Developed by R.Gnana Sreekar</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="feedback_name">Name</string>
+    <string name="feedback_email">Email</string>
+    <string name="feedback">Feedback</string>
 
 
 </resources>

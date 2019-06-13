@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:orientation="vertical"
+    tools:context=".Feedback"
+    android:background="@color/dark">
+
+    <android.support.v7.widget.Toolbar
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:title="Feedback"
+    android:background="@color/dark">
+
+
+    </android.support.v7.widget.Toolbar>
+
+    <EditText
+        android:id="@+id/edit"
+        android:layout_width="342dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:hint="@string/feedback_name"
+        android:padding="20dp" />
+    <EditText
+        android:padding="20dp"
+        android:layout_gravity="center"
+        android:layout_width="342dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/feedback_email"
+        android:id="@+id/edit2"/>
+    <EditText
+        android:padding="20dp"
+        android:layout_gravity="center"
+        android:layout_width="342dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/feedback"
+        android:id="@+id/edit3" />
+
+    <Button
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_feed"
+        android:text="submit"
+        android:onClick="feedback_todb"
+        />
+
+
+</LinearLayout>

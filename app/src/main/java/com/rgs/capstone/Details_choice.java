@@ -1,5 +1,7 @@
 package com.rgs.capstone;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,26 +20,28 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class Details_choice extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
-
+public class Details_choice extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    String json_data;
     Adapter adapter;
     RequestQueue requestQueue;
     @BindView(R.id.toolbar)
@@ -54,6 +58,7 @@ public class Details_choice extends AppCompatActivity
     DrawerLayout drawerLayout;
     private ArrayList<pojo> list;
     String url = bussiness;
+    GridLayoutManager gridLayoutManager;
     private static final String bussiness = "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=b37f681a7f3442ba8f208ff0ce67b279";
     private static final String techcrunch = "https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=b37f681a7f3442ba8f208ff0ce67b279";
     private static final String bitcoin = "https://newsapi.org/v2/everything?q=bitcoin&from=2019-05-11&sortBy=publishedAt&apiKey=b37f681a7f3442ba8f208ff0ce67b279";
@@ -80,8 +85,26 @@ public class Details_choice extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navView.setNavigationItemSelectedListener(this);
-        json(url);
+        if(savedInstanceState!=null && savedInstanceState.containsKey("JSONDATA")){
+            json_data = savedInstanceState.getString("JSONDATA");
+            parseJson(json_data);
+        }
+        else
+        {
+            json(url);
+        }
+
     }
+
+    /*//call Widget to update it using BroadCastIntent
+    Intent intent = new Intent(this, Capstone_widget.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+    int[] ids = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(
+            new ComponentName(getApplication(), Capstone_widget.class));
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+    sendBroadcast(intent);
+*/
+
 
     @Override
     public void onBackPressed() {
@@ -131,6 +154,8 @@ public class Details_choice extends AppCompatActivity
             json(url);
         } else if (id == R.id.nav_myinfo) {
             startActivity(new Intent(Details_choice.this,Myinfo.class));
+        } else if (id == R.id.nav_feedback){
+            startActivity(new Intent(Details_choice.this, Feedback.class));
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -141,40 +166,60 @@ public class Details_choice extends AppCompatActivity
     public void json(String url) {
         progerssBar.setVisibility(View.VISIBLE);
         Log.d("url" , url);
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                Log.d("urld" , String.valueOf(response));
-                list = new ArrayList<>();
-                try {
-                    JSONArray jsonArray = response.getJSONArray("articles");
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject news = jsonArray.getJSONObject(i);
-                        JSONObject name = news.getJSONObject("source");
-                        String author = name.getString("name");
-                        String content = news.getString("content");
-                        String imgae = news.getString("urlToImage");
-                        String title = news.getString("title");
-                        String url = news.getString("url");
-                        String date = news.getString("publishedAt");
-                        String description = news.getString("description");
-                        list.add(new pojo(author, content, imgae, title, url, date, description));
-                        Log.d("urln", String.valueOf(list.size()));
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+// Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        json_data = response;
+                        parseJson(response);
                     }
-                    progerssBar.setVisibility(View.INVISIBLE);
-                    adapter.setList(list);
-                    recyclerview.setAdapter(adapter);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                Log.d("urlres", String.valueOf(response));
-            }
-        }, new Response.ErrorListener() {
+                }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
 
             }
         });
-        requestQueue.add(jsonObjectRequest);
+
+// Add the request to the RequestQueue.
+        queue.add(stringRequest);
+}
+
+    private void parseJson(String response) {
+        Log.d("urld" , String.valueOf(response));
+        list = new ArrayList<>();
+
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            JSONArray jsonArray = jsonObject.getJSONArray("articles");
+            for (int i = 0; i < jsonArray.length();  i++) {
+                JSONObject news = jsonArray.getJSONObject(i);
+                JSONObject name = news.getJSONObject("source");
+                String author = name.getString("name");
+                String content = news.getString("content");
+                String imgae = news.getString("urlToImage");
+                String title = news.getString("title");
+                String url = news.getString("url");
+                String date = news.getString("publishedAt");
+                String description = news.getString("description");
+                list.add(new pojo(author, content, imgae, title, url, date, description));
+                Log.d("urln", String.valueOf(list.size()));
+            }
+            progerssBar.setVisibility(View.INVISIBLE);
+            adapter.setList(list);
+            recyclerview.setAdapter(adapter);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.d("urlres", String.valueOf(response));
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("JSONDATA",json_data);
     }
 }
