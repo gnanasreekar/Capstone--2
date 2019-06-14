@@ -72,7 +72,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         return list.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         TextView author;
         TextView content;
@@ -83,7 +83,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             content = itemView.findViewById(R.id.content);
             imageView = itemView.findViewById(R.id.thumbnail);
             cardView = itemView.findViewById(R.id.cardview);
-            itemView.setOnClickListener(this);
+
 
 
         }
@@ -93,9 +93,5 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             content.setText(b);
         }
 
-        @Override
-        public void onClick(View v) {
-
-        }
     }
 }

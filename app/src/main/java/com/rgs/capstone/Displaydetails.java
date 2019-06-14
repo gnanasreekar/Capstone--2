@@ -1,6 +1,6 @@
 package com.rgs.capstone;
 
-import android.arch.lifecycle.ViewModelProvider;
+import android.annotation.SuppressLint;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.net.Uri;
@@ -26,6 +26,8 @@ import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.rgs.capstone.R.string.pdate;
 
 public class Displaydetails extends AppCompatActivity {
 
@@ -62,16 +64,16 @@ public class Displaydetails extends AppCompatActivity {
     ToggleButton toggleButton;
     private NewsViewModel newsViewModel;
     private boolean status;
-    NewsViewModel newsViewModl;
-//    private String authordb , contentdb , titledb , datedb , urldb ,descdb , imagedb;
 
+
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_displaydetails);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdView mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .build();
@@ -93,7 +95,7 @@ public class Displaydetails extends AppCompatActivity {
         title.setText(titile);
         desc.setText(description);
         content.setText(contents);
-        datet.setText("Published date :" + date);
+        datet.setText(getString(pdate) + date);
         toolbarLayout.setTitle(authors);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,8 +115,8 @@ public class Displaydetails extends AppCompatActivity {
             }
         });
         checkMovieIfExistsInDatabase(titile);
-
     }
+
 
     //To check if movie already exist in DB
     private void checkMovieIfExistsInDatabase(String titile) {
@@ -123,36 +125,33 @@ public class Displaydetails extends AppCompatActivity {
             status = true;
             toggleButton.setChecked(true);
             toggleButton.setTextOn("Favoutites");
-            Toast.makeText(this, "Article Exists", Toast.LENGTH_SHORT).show();
         } else {
             status = false;
             toggleButton.setChecked(false);
             toggleButton.setTextOff("Add to Favorites?");
-            Toast.makeText(this, "Article Doesn't Exists", Toast.LENGTH_SHORT).show();
         }
     }
 
     public void change(View view) {
-        boolean fav = false;
+        boolean fav;
         fav = ((ToggleButton) view).isChecked();
         if (!fav) {
-            if (status == true) {
-                NewsTable roomTable = new NewsTable(authors , contents , image , titile , url , date , description);
+            if (status) {
+                NewsTable roomTable = new NewsTable(authors, contents, image, titile, url, date, description);
                 newsViewModel.delete(roomTable);
                 Toast.makeText(getApplicationContext(), "Deleted from Favourites", Toast.LENGTH_SHORT).show();
                 toggleButton.setTextOff("Add to fav?");
             }
 
         } else {
-            if (status == false) {
-                NewsTable roomTable = new NewsTable(authors , contents , image , titile , url , date , description);
+            if (!status) {
+                NewsTable roomTable = new NewsTable(authors, contents, image, titile, url, date, description);
                 newsViewModel.insert(roomTable);
                 Toast.makeText(getApplicationContext(), "Added to Favourites", Toast.LENGTH_SHORT).show();
                 toggleButton.setTextOn("Favourite");
             }
         }
     }
-
 
 
 }

@@ -1,20 +1,22 @@
 package com.rgs.capstone;
 
-import android.appwidget.AppWidgetManager;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.ComponentName;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,13 +26,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.rgs.capstone.Database.NewsAdapter;
@@ -41,7 +41,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,12 +63,9 @@ public class Details_choice extends AppCompatActivity implements NavigationView.
     NavigationView navView;
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
-    private ArrayList<pojo> list;
     String url = bussiness;
-    GridLayoutManager gridLayoutManager;
     private NewsViewModel newsViewModel;
     private NewsAdapter newsAdapter;
-    List<NewsTable> newsTables;
     private static final String bussiness = "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=b37f681a7f3442ba8f208ff0ce67b279";
     private static final String techcrunch = "https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=b37f681a7f3442ba8f208ff0ce67b279";
     private static final String bitcoin = "https://newsapi.org/v2/everything?q=bitcoin&from=2019-05-11&sortBy=publishedAt&apiKey=b37f681a7f3442ba8f208ff0ce67b279";
@@ -79,38 +75,69 @@ public class Details_choice extends AppCompatActivity implements NavigationView.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_choice);
         ButterKnife.bind(this);
-        newsAdapter = new NewsAdapter(Details_choice.this);
-        newsViewModel = ViewModelProviders.of(this).get(NewsViewModel.class);
-        requestQueue = Volley.newRequestQueue(getApplicationContext());
-        adapter = new Adapter(Details_choice.this);
-        recyclerview.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
-        setSupportActionBar(toolbar);
+        if (!internet(Details_choice.this)) alertdialog(Details_choice.this).show();
+        else {
+            newsAdapter = new NewsAdapter(Details_choice.this);
+            newsViewModel = ViewModelProviders.of(this).get(NewsViewModel.class);
+            requestQueue = Volley.newRequestQueue(getApplicationContext());
+            adapter = new Adapter(Details_choice.this);
+            recyclerview.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
+            setSupportActionBar(toolbar);
 
-        fab.setOnClickListener(new View.OnClickListener() {
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(Details_choice.this, Myinfo.class));
+                }
+            });
+            DrawerLayout drawer = findViewById(R.id.drawer_layout);
+            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                    this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+            drawer.addDrawerListener(toggle);
+            toggle.syncState();
+            navView.setNavigationItemSelectedListener(this);
+            if (savedInstanceState != null && savedInstanceState.containsKey("JSONDATA")) {
+                json_data = savedInstanceState.getString("JSONDATA");
+                parseJson(json_data);
+            } else {
+                json(url);
+            }
+            if (Details_choice.this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                recyclerview.setLayoutManager(new GridLayoutManager(this, 2));
+            } else {
+                recyclerview.setLayoutManager(new GridLayoutManager(this, 4));
+            }
+        }
+
+    }
+
+    //To check and alert internet
+    public static boolean internet(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+
+        if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
+            NetworkInfo wifi = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+            NetworkInfo mobile = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+            return (mobile != null && mobile.isConnectedOrConnecting()) || (wifi != null && wifi.isConnectedOrConnecting());
+        } else {
+            return false;
+        }
+
+    }
+
+    //Alert dialog
+    public AlertDialog.Builder alertdialog(Context context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(R.string.no_internet);
+        builder.setMessage(R.string.alert_msg);
+        builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                startActivity(new Intent(Details_choice.this, Myinfo.class));
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
             }
         });
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-        navView.setNavigationItemSelectedListener(this);
-        if(savedInstanceState!=null && savedInstanceState.containsKey("JSONDATA")){
-            json_data = savedInstanceState.getString("JSONDATA");
-            parseJson(json_data);
-        }
-        else
-        {
-            json(url);
-        }
-        if (Details_choice.this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            recyclerview.setLayoutManager(new GridLayoutManager(this, 2));
-        } else {
-            recyclerview.setLayoutManager(new GridLayoutManager(this, 4));
-        }
+        return builder;
 
     }
 
@@ -160,7 +187,6 @@ public class Details_choice extends AppCompatActivity implements NavigationView.
         });
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
@@ -175,8 +201,8 @@ public class Details_choice extends AppCompatActivity implements NavigationView.
             url = bitcoin;
             json(url);
         } else if (id == R.id.nav_myinfo) {
-            startActivity(new Intent(Details_choice.this,Myinfo.class));
-        } else if (id == R.id.nav_feedback){
+            startActivity(new Intent(Details_choice.this, Myinfo.class));
+        } else if (id == R.id.nav_feedback) {
             startActivity(new Intent(Details_choice.this, Feedback.class));
         } else if (id == R.id.nav_fav) {
             loadFAv();
@@ -189,7 +215,7 @@ public class Details_choice extends AppCompatActivity implements NavigationView.
 
     public void json(String url) {
         progerssBar.setVisibility(View.VISIBLE);
-        Log.d("url" , url);
+        Log.d("url", url);
         RequestQueue queue = Volley.newRequestQueue(this);
 
 // Request a string response from the provided URL.
@@ -210,16 +236,16 @@ public class Details_choice extends AppCompatActivity implements NavigationView.
 
 // Add the request to the RequestQueue.
         queue.add(stringRequest);
-}
+    }
 
     private void parseJson(String response) {
-        Log.d("urld" , String.valueOf(response));
-        list = new ArrayList<>();
+        Log.d("urld", String.valueOf(response));
+        ArrayList<pojo> list = new ArrayList<>();
 
         try {
             JSONObject jsonObject = new JSONObject(response);
             JSONArray jsonArray = jsonObject.getJSONArray("articles");
-            for (int i = 0; i < jsonArray.length();  i++) {
+            for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject news = jsonArray.getJSONObject(i);
                 JSONObject name = news.getJSONObject("source");
                 String author = name.getString("name");
@@ -244,6 +270,6 @@ public class Details_choice extends AppCompatActivity implements NavigationView.
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("JSONDATA",json_data);
+        outState.putString("JSONDATA", json_data);
     }
 }

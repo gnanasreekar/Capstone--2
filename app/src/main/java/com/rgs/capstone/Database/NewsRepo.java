@@ -6,7 +6,7 @@ import android.os.AsyncTask;
 
 import java.util.List;
 
-public class NewsRepo
+class NewsRepo
 {
     private Dao_news dao;
     private LiveData<List<NewsTable>> alldata;
@@ -17,12 +17,12 @@ public class NewsRepo
         alldata = dao.getAllNews();
     }
 
-    public LiveData<List<NewsTable>> getAlldata()
+    LiveData<List<NewsTable>> getAlldata()
     {
         return alldata;
     }
 
-    public void insert(NewsTable newsTable){
+    void insert(NewsTable newsTable){
         new insertDataTask(dao).execute(newsTable);
     }
 
@@ -39,7 +39,7 @@ public class NewsRepo
         }
     }
 
-    public void delete(NewsTable newsTable){
+    void delete(NewsTable newsTable){
         new deleteDataTask(dao).execute(newsTable);
     }
 
@@ -56,7 +56,7 @@ public class NewsRepo
         }
     }
 
-    public NewsTable checkDatabase(String title){
+     NewsTable checkDatabase(String title){
         return dao.checkarti(title);
     }
 }

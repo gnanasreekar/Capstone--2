@@ -1,6 +1,5 @@
 package com.rgs.capstone;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -17,7 +16,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class Myinfo extends AppCompatActivity {
-    Context context;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.toolbar_layout)
@@ -38,17 +36,17 @@ public class Myinfo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_myinfo);
         ButterKnife.bind(this);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        final TextView myClickableUrl = (TextView) findViewById(R.id.linkdin);
-        myClickableUrl.setText("Linkdin : www.linkedin.com/in/gnana-sreekar/");
+        final TextView myClickableUrl =  findViewById(R.id.linkdin);
+        myClickableUrl.setText(getString(R.string.lindin));
         Linkify.addLinks(myClickableUrl, Linkify.WEB_URLS);
 
-        final TextView myClickableUrlYT = (TextView) findViewById(R.id.youtube);
-        myClickableUrlYT.setText("Youtube : www.youtube.com/rgstech");
+        final TextView myClickableUrlYT =  findViewById(R.id.youtube);
+        myClickableUrlYT.setText(getString(R.string.yotube));
         Linkify.addLinks(myClickableUrlYT, Linkify.WEB_URLS);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
