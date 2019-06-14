@@ -1,10 +1,14 @@
 package com.rgs.capstone;
 
 import android.appwidget.AppWidgetManager;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -29,6 +33,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.rgs.capstone.Database.NewsAdapter;
+import com.rgs.capstone.Database.NewsTable;
+import com.rgs.capstone.Database.NewsViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,6 +43,7 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -59,6 +67,9 @@ public class Details_choice extends AppCompatActivity implements NavigationView.
     private ArrayList<pojo> list;
     String url = bussiness;
     GridLayoutManager gridLayoutManager;
+    private NewsViewModel newsViewModel;
+    private NewsAdapter newsAdapter;
+    List<NewsTable> newsTables;
     private static final String bussiness = "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=b37f681a7f3442ba8f208ff0ce67b279";
     private static final String techcrunch = "https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=b37f681a7f3442ba8f208ff0ce67b279";
     private static final String bitcoin = "https://newsapi.org/v2/everything?q=bitcoin&from=2019-05-11&sortBy=publishedAt&apiKey=b37f681a7f3442ba8f208ff0ce67b279";
@@ -68,6 +79,8 @@ public class Details_choice extends AppCompatActivity implements NavigationView.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_choice);
         ButterKnife.bind(this);
+        newsAdapter = new NewsAdapter(Details_choice.this);
+        newsViewModel = ViewModelProviders.of(this).get(NewsViewModel.class);
         requestQueue = Volley.newRequestQueue(getApplicationContext());
         adapter = new Adapter(Details_choice.this);
         recyclerview.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
@@ -93,17 +106,13 @@ public class Details_choice extends AppCompatActivity implements NavigationView.
         {
             json(url);
         }
+        if (Details_choice.this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            recyclerview.setLayoutManager(new GridLayoutManager(this, 2));
+        } else {
+            recyclerview.setLayoutManager(new GridLayoutManager(this, 4));
+        }
 
     }
-
-    /*//call Widget to update it using BroadCastIntent
-    Intent intent = new Intent(this, Capstone_widget.class);
-        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-    int[] ids = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(
-            new ComponentName(getApplication(), Capstone_widget.class));
-        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
-    sendBroadcast(intent);
-*/
 
 
     @Override
@@ -138,6 +147,19 @@ public class Details_choice extends AppCompatActivity implements NavigationView.
         return super.onOptionsItemSelected(item);
     }
 
+    private void loadFAv() {
+
+        newsViewModel.getAllData().observe(this, new Observer<List<NewsTable>>() {
+            @Override
+            public void onChanged(@Nullable List<NewsTable> roomTables) {
+                if (roomTables != null) {
+                    newsAdapter.setRoomTables(roomTables);
+                    recyclerview.setAdapter(newsAdapter);
+                }
+            }
+        });
+    }
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -156,6 +178,8 @@ public class Details_choice extends AppCompatActivity implements NavigationView.
             startActivity(new Intent(Details_choice.this,Myinfo.class));
         } else if (id == R.id.nav_feedback){
             startActivity(new Intent(Details_choice.this, Feedback.class));
+        } else if (id == R.id.nav_fav) {
+            loadFAv();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

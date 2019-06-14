@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="16dp"
-            android:text="author"
+            android:text="@string/author_a"
             android:textColor="#F5F5F5"
             android:paddingTop="16dp"
             android:background="@color/dark"
@@ -52,7 +52,7 @@
             android:paddingBottom="16dp"
             android:textColor="#9E9E9E"
             android:maxLines="2"
-            android:text="content"
+            android:text="@string/content_a"
             android:ellipsize="end"
             android:typeface="sans"/>
     </LinearLayout>

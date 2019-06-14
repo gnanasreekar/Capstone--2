@@ -1,5 +1,7 @@
 package com.rgs.capstone;
 
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,7 +15,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.rgs.capstone.Database.NewsTable;
+import com.rgs.capstone.Database.NewsViewModel;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
@@ -43,12 +51,19 @@ public class Displaydetails extends AppCompatActivity {
     String date;
     String contents;
     String url;
+    String image;
     @BindView(R.id.back_image)
     ImageView backImage;
     @BindView(R.id.website)
     FloatingActionButton website;
     @BindView(R.id.title)
     TextView title;
+    @BindView(R.id.toggleButton)
+    ToggleButton toggleButton;
+    private NewsViewModel newsViewModel;
+    private boolean status;
+    NewsViewModel newsViewModl;
+//    private String authordb , contentdb , titledb , datedb , urldb ,descdb , imagedb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +71,14 @@ public class Displaydetails extends AppCompatActivity {
         setContentView(R.layout.activity_displaydetails);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build();
+        mAdView.loadAd(adRequest);
+
+
+        newsViewModel = ViewModelProviders.of(this).get(NewsViewModel.class);
 
         toolbar = findViewById(R.id.toolbar);
         Intent intent = getIntent();
@@ -65,6 +88,7 @@ public class Displaydetails extends AppCompatActivity {
         date = intent.getStringExtra("date");
         url = intent.getStringExtra("url");
         description = intent.getStringExtra("desc");
+        image = intent.getStringExtra("image");
         Picasso.with(getApplicationContext()).load(intent.getStringExtra("image")).fit().centerInside().into(backImage);
         title.setText(titile);
         desc.setText(description);
@@ -88,6 +112,47 @@ public class Displaydetails extends AppCompatActivity {
                 customTabsIntent.launchUrl(Displaydetails.this, Uri.parse(url));
             }
         });
+        checkMovieIfExistsInDatabase(titile);
 
     }
+
+    //To check if movie already exist in DB
+    private void checkMovieIfExistsInDatabase(String titile) {
+        NewsTable roomTable = newsViewModel.checkDatabase(titile);
+        if (roomTable != null) {
+            status = true;
+            toggleButton.setChecked(true);
+            toggleButton.setTextOn("Favoutites");
+            Toast.makeText(this, "Article Exists", Toast.LENGTH_SHORT).show();
+        } else {
+            status = false;
+            toggleButton.setChecked(false);
+            toggleButton.setTextOff("Add to Favorites?");
+            Toast.makeText(this, "Article Doesn't Exists", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void change(View view) {
+        boolean fav = false;
+        fav = ((ToggleButton) view).isChecked();
+        if (!fav) {
+            if (status == true) {
+                NewsTable roomTable = new NewsTable(authors , contents , image , titile , url , date , description);
+                newsViewModel.delete(roomTable);
+                Toast.makeText(getApplicationContext(), "Deleted from Favourites", Toast.LENGTH_SHORT).show();
+                toggleButton.setTextOff("Add to fav?");
+            }
+
+        } else {
+            if (status == false) {
+                NewsTable roomTable = new NewsTable(authors , contents , image , titile , url , date , description);
+                newsViewModel.insert(roomTable);
+                Toast.makeText(getApplicationContext(), "Added to Favourites", Toast.LENGTH_SHORT).show();
+                toggleButton.setTextOn("Favourite");
+            }
+        }
+    }
+
+
+
 }

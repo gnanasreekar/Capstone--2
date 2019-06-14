@@ -23,5 +23,19 @@
     <string name="feedback_email">Email</string>
     <string name="feedback">Feedback</string>
 
+    <string name="submit">submit</string>
+    <string name="date">date</string>
+    <string name="udacity_capstone_2_project">Udacity CapStone--2 Project</string>
+    <string name="api_provider_newsapi_org">API Provider newsapi.org</string>
+    <string name="used_libraries">Used Libraries</string>
+    <string name="linkdin_www_linkedin_com_in_gnana_sreekar">Linkdin : www.linkedin.com/in/gnana-sreekar/</string>
+    <string name="youtube_www_youtube_com_rgstech">Youtube : www.youtube.com/rgstech</string>
+    <string name="_1_butterknife_n2_volley_n3_picasso">1.ButterKnife  \n2.Volley  \n3.Picasso</string>
+    <string name="author_a">author</string>
+    <string name="content_a">content</string>
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="google_ads_app_id">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="favourites">Favourites</string>
+
 
 </resources>

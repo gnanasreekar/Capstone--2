@@ -17,6 +17,11 @@
             android:id="@+id/nav_bitcoin"
             android:icon="@drawable/ic_monetization_on_black_24dp"
             android:title="@string/bitcoin_news" />
+        <item
+            android:id="@+id/nav_fav"
+            android:title="@string/favourites"
+            android:icon="@drawable/ic_favorite_black_24dp"/>
+
 
     </group>
 

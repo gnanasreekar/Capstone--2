@@ -1,11 +1,13 @@
- package com.rgs.capstone;
+ package com.rgs.capstone.widget;
 
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.widget.RemoteViews;
 
-/**
+import com.rgs.capstone.R;
+
+ /**
  * Implementation of App Widget functionality.
  */
 public class Capstone_widget extends AppWidgetProvider {

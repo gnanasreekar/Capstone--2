@@ -28,20 +28,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="Udacity CapStone--2 Project"/>
+            android:text="@string/udacity_capstone_2_project"/>
 
         <TextView
             android:textColor="@color/colorAccent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="API Provider newsapi.org"
+            android:text="@string/api_provider_newsapi_org"
             android:layout_margin="10dp"/>
 
         <TextView
             android:textColor="@color/colorAccent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Used Libraries"
+            android:text="@string/used_libraries"
             android:textSize="20sp"
             android:layout_margin="10dp"/>
 
@@ -49,7 +49,7 @@
             android:textColor="@color/colorAccent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1.ButterKnife  \n2.Volley  \n3.Picasso"
+            android:text="@string/_1_butterknife_n2_volley_n3_picasso"
             android:layout_margin="10dp"/>
 
         <TextView
@@ -58,9 +58,10 @@
             android:layout_margin="10dp"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:text="Linkdin : www.linkedin.com/in/gnana-sreekar/"
+            android:text="@string/linkdin_www_linkedin_com_in_gnana_sreekar"
             android:id="@+id/linkdin"
-            android:autoLink="web"/>
+            android:autoLink="web"
+            android:focusable="true" />
 
         <TextView
             android:textColor="@color/colorAccent"
@@ -68,9 +69,10 @@
             android:layout_margin="10dp"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:text="Youtube : www.youtube.com/rgstech"
+            android:text="@string/youtube_www_youtube_com_rgstech"
             android:id="@+id/youtube"
-            android:autoLink="web"/>
+            android:autoLink="web"
+            android:focusable="true" />
 
 
 
