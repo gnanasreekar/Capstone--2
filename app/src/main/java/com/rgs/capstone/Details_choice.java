@@ -32,9 +32,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.auth.FirebaseAuth;
 import com.rgs.capstone.Database.NewsAdapter;
 import com.rgs.capstone.Database.NewsTable;
 import com.rgs.capstone.Database.NewsViewModel;
+import com.rgs.capstone.login.login;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -74,7 +76,9 @@ public class Details_choice extends AppCompatActivity implements NavigationView.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_choice);
         ButterKnife.bind(this);
-        if (!internet(Details_choice.this)) alertdialog(Details_choice.this).show();
+        if (!internet(Details_choice.this)){
+            alertdialog(Details_choice.this).show();
+        }
         else {
             newsAdapter = new NewsAdapter(Details_choice.this);
             newsViewModel = ViewModelProviders.of(this).get(NewsViewModel.class);
@@ -152,21 +156,6 @@ public class Details_choice extends AppCompatActivity implements NavigationView.
     }
 
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     private void loadFAv() {
 
         newsViewModel.getAllData().observe(this, new Observer<List<NewsTable>>() {
@@ -199,6 +188,10 @@ public class Details_choice extends AppCompatActivity implements NavigationView.
             startActivity(new Intent(Details_choice.this, Feedback.class));
         } else if (id == R.id.nav_fav) {
             loadFAv();
+        } else if (id == R.id.signout){
+            FirebaseAuth.getInstance().signOut();
+            Intent I=new Intent(Details_choice.this, login.class);
+            startActivity(I);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

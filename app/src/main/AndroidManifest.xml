@@ -14,7 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".login"
+        <activity android:name=".login.Signup"></activity>
+        <activity
+            android:name=".login.login"
             android:label="Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,9 +47,7 @@
         <activity
             android:name=".Details_choice"
             android:label="@string/title_activity_details_choice"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"

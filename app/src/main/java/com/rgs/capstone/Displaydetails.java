@@ -1,7 +1,9 @@
 package com.rgs.capstone;
 
 import android.annotation.SuppressLint;
+import android.appwidget.AppWidgetManager;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -83,10 +85,6 @@ public class Displaydetails extends AppCompatActivity {
                 .build();
         mAdView.loadAd(adRequest);
 
-
-
-
-
         newsViewModel = ViewModelProviders.of(this).get(NewsViewModel.class);
 
         toolbar = findViewById(R.id.toolbar);
@@ -123,10 +121,21 @@ public class Displaydetails extends AppCompatActivity {
         });
         checkMovieIfExistsInDatabase(titile);
 
+        Intent intentw = new Intent(Displaydetails.this, Capstone_widget.class);
+        intentw.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        intentw.putExtra("data",titile);
+        Displaydetails.this.sendBroadcast(intent);
+
         sharedPreferences = getSharedPreferences("myfile",MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("ALL",titile);
         editor.apply();
+
+        Intent widget_intent = new Intent(this, Capstone_widget.class);
+        widget_intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        int[] ids = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(),Capstone_widget.class));
+        widget_intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+        sendBroadcast(widget_intent);
     }
 
 
