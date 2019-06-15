@@ -23,6 +23,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.rgs.capstone.Database.NewsTable;
 import com.rgs.capstone.Database.NewsViewModel;
+import com.rgs.capstone.widget.Capstone_widget;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
@@ -66,6 +67,7 @@ public class Displaydetails extends AppCompatActivity {
     private NewsViewModel newsViewModel;
     private boolean status;
     SharedPreferences sharedPreferences;
+    Bundle bundle;
 
 
     @SuppressLint("SetTextI18n")
@@ -80,10 +82,10 @@ public class Displaydetails extends AppCompatActivity {
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .build();
         mAdView.loadAd(adRequest);
-        sharedPreferences = getSharedPreferences("myfile",MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("ALL",titile);
-        editor.apply();
+
+
+
+
 
         newsViewModel = ViewModelProviders.of(this).get(NewsViewModel.class);
 
@@ -120,6 +122,11 @@ public class Displaydetails extends AppCompatActivity {
             }
         });
         checkMovieIfExistsInDatabase(titile);
+
+        sharedPreferences = getSharedPreferences("myfile",MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("ALL",titile);
+        editor.apply();
     }
 
 
