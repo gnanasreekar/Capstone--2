@@ -18,8 +18,9 @@ import com.rgs.capstone.Details_choice;
 import com.rgs.capstone.R;
 
 public class Signup extends AppCompatActivity {
-    public EditText emailId, passwd;
-    Button btnSignUp;
+    public EditText emailId;
+    public EditText password;
+    Button buttom_signup;
     TextView signIn;
     FirebaseAuth firebaseAuth;
 
@@ -29,20 +30,20 @@ public class Signup extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
         firebaseAuth = FirebaseAuth.getInstance();
         emailId = findViewById(R.id.username_signup);
-        passwd = findViewById(R.id.password_signup);
-        btnSignUp = findViewById(R.id.button_signup);
+        password = findViewById(R.id.password_signup);
+        buttom_signup = findViewById(R.id.button_signup);
         signIn = findViewById(R.id.signin_signup);
-        btnSignUp.setOnClickListener(new View.OnClickListener() {
+        buttom_signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String emailID = emailId.getText().toString();
-                String paswd = passwd.getText().toString();
+                String paswd = password.getText().toString();
                 if (emailID.isEmpty()) {
                     emailId.setError("Provide your Email first!");
                     emailId.requestFocus();
                 } else if (paswd.isEmpty()) {
-                    passwd.setError("Set your password");
-                    passwd.requestFocus();
+                    password.setError("Set your password");
+                    password.requestFocus();
                 } else if (emailID.isEmpty() && paswd.isEmpty()) {
                     Toast.makeText(Signup.this, "Fields Empty!", Toast.LENGTH_SHORT).show();
                 } else if (!(emailID.isEmpty() && paswd.isEmpty())) {

@@ -20,8 +20,8 @@ import com.rgs.capstone.R;
 
 public class login extends AppCompatActivity {
 
-    public EditText loginEmailId, logInpasswd;
-    Button btnLogIn;
+    public EditText login_username, login_password;
+    Button button_login;
     TextView signup;
     FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
@@ -31,9 +31,9 @@ public class login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         firebaseAuth = FirebaseAuth.getInstance();
-        loginEmailId = findViewById(R.id.username);
-        logInpasswd = findViewById(R.id.password);
-        btnLogIn = findViewById(R.id.button_login);
+        login_username = findViewById(R.id.username);
+        login_password = findViewById(R.id.password);
+        button_login = findViewById(R.id.button_login);
         signup = findViewById(R.id.signup);
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -55,17 +55,17 @@ public class login extends AppCompatActivity {
                 startActivity(I);
             }
         });
-        btnLogIn.setOnClickListener(new View.OnClickListener() {
+        button_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String userEmail = loginEmailId.getText().toString();
-                String userPaswd = logInpasswd.getText().toString();
+                String userEmail = login_username.getText().toString();
+                String userPaswd = login_password.getText().toString();
                 if (userEmail.isEmpty()) {
-                    loginEmailId.setError("Provide your Email first!");
-                    loginEmailId.requestFocus();
+                    login_username.setError("Provide your Email first!");
+                    login_username.requestFocus();
                 } else if (userPaswd.isEmpty()) {
-                    logInpasswd.setError("Enter Password!");
-                    logInpasswd.requestFocus();
+                    login_password.setError("Enter Password!");
+                    login_password.requestFocus();
                 } else if (userEmail.isEmpty() && userPaswd.isEmpty()) {
                     Toast.makeText(login.this, "Fields Empty!", Toast.LENGTH_SHORT).show();
                 } else if (!(userEmail.isEmpty() && userPaswd.isEmpty())) {
