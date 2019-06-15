@@ -3,7 +3,7 @@
     <string name="title_activity_details_choice">News</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_title">News App</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
@@ -21,7 +21,7 @@
     <string name="add_widget">Add widget</string>
     <string name="feedback_name">Name</string>
     <string name="feedback_email">Email</string>
-    <string name="feedback">Feedback</string>
+
 
     <string name="submit">submit</string>
     <string name="date">date</string>
@@ -41,6 +41,22 @@
     <string name="pdate">Published date :</string>
     <string name="lindin">Linkdin : www.linkedin.com/in/gnana-sreekar/</string>
     <string name="yotube">Youtube : www.youtube.com/rgstech</string>
+    <string name="title_activity_signin">Signin</string>
+    <string name="developer_info">Developer Info</string>
+    <string name="feedback">Feedback</string>
+    <string name="info">INFO</string>
+    <string name="favoutites">Favoutites</string>
+    <string name="add_to_favoutites">add to Favoutites?</string>
+    <string name="togglebutton">ToggleButton</string>
+    <string name="imageview_recicler_view">IMageView_recicler View</string>
+    <string name="toogle_button_to_add_to_fav">Toogle Button to add to fav</string>
+    <string name="image_view_to_display_image_in_displa_activity">Image View to display image in displa activity</string>
+    <string name="share_button">Share button</string>
+    <string name="webite_button">Webite button</string>
+    <string name="takes_to_feedback_activity">Takes to feedback activity</string>
+    <string name="shows_some_emojies">Shows some emojies</string>
+    <string name="intent_to_myinfo_activity">intent to myinfo activity</string>
+    <string name="loading">Loading</string>
 
 
 </resources>

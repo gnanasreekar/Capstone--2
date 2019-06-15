@@ -25,15 +25,15 @@
 
     </group>
 
-    <item android:title="INFO">
+    <item android:title="@string/info">
         <menu>
             <item
                 android:id="@+id/nav_myinfo"
                 android:icon="@drawable/ic_info_black_24dp"
-                android:title="Developer Info" />
+                android:title="@string/developer_info" />
             <item
                 android:id="@+id/nav_feedback"
-                android:title="Feedback"
+                android:title="@string/feedback"
                 android:icon="@drawable/ic_feedback_black_24dp"/>
         </menu>
     </item>

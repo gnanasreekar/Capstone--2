@@ -22,6 +22,7 @@
             android:id="@+id/thumbnail"
             android:background="@color/dark"
             android:layout_width="match_parent"
+            android:contentDescription="@string/imageview_recicler_view"
             android:layout_height="250dp"
             android:scaleType="centerCrop"/>
 

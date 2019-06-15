@@ -69,10 +69,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_weight="1"
+        android:contentDescription="@string/toogle_button_to_add_to_fav"
         android:onClick="change"
-        android:textOn="Favoutites"
-        android:textOff=" add to Favoutites?"
-        android:text="ToggleButton" />
+        android:textOn="@string/favoutites"
+        android:textOff="@string/add_to_favoutites"
+        android:text="@string/togglebutton" />
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"
